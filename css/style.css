@@ -195,6 +195,7 @@
   bottom: 0px;
   height: 300px;
   width: 100%;
+  overflow: hidden;
 }
 
 #scene {
@@ -260,9 +261,7 @@
     width: 20px;
     font-size: 18px;
     padding: 1px;
-    top: 0;
-    right: 10px;
-    position: relative;
+    position: absolute;
     display: inline-block;
     cursor: pointer;
   }
@@ -301,9 +300,7 @@
     width: 40px;
     font-size: 18px;
     padding: 1px;
-    top: 0;
-    right: 20px;
-    position: relative;
+    position: absolute;
     display: inline-block;
     cursor: pointer;
   }

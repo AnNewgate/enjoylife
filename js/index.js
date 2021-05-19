@@ -100,16 +100,3 @@ function CloseFrameClick() {
     var frame = document.getElementById("FadeInDivFrame");
     frame.style.display = "none";
 }
-
-function loadImage(){
-  console.log("图片加载完成");
-  var img = document.getElementById("img");
-  var hiddenBtn = document.getElementById("HiddenDivFrame");
-  var height = img.style.height;
-  console.log(height);
-  var hiddenBtnHeight = hiddenBtn.style.height;
-  console.log(hiddenBtnHeight);
-  var top = height / 2 + hiddenBtnHeight / 2 ;
-  console.log(top);
-  hiddenBtn.style.top = '-'+ top + 'px';
-}

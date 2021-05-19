@@ -978,8 +978,8 @@ c-0.8047,2.0459-1.1533,3.7432-0.5103,6.5195s2.7056,4.5264,3.5181,6.2139s0.5-1.68
     <div class="content__meta"><button class="btn btn--start" aria-label="Start animation"
         onclick="FadeInLinkClick();">click me</button></div>
     <div id="FadeInDivFrame" class="FadeInFrame">
-      <img id="img" src="./img/birthday.png" onload="loadImage();" />
-      <span id="HiddenDivFrame" class="close" onclick="CloseFrameClick();"></span>
+      <img id="img" src="./img/birthday.png" />
+      <div id="HiddenDivFrame" class="close" onclick="CloseFrameClick();"></div>
     </div>
   </div>
 
@@ -998,12 +998,37 @@ c-0.8047,2.0459-1.1533,3.7432-0.5103,6.5195s2.7056,4.5264,3.5181,6.2139s0.5-1.68
       });
       //svgFx1.nextElementSibling.querySelector('button').addEventListener('click', function() { phrase1.animate(); });
 
+      // 获取元素的绝对位置坐标（像对于页面左上角）
+      function getElementPagePosition(element) {
+        //计算x坐标
+        var actualLeft = element.offsetLeft;
+        var current = element.offsetParent;
+        while (current !== null) {
+          actualLeft += current.offsetLeft;
+          current = current.offsetParent;
+        }
+        //计算y坐标
+        var actualTop = element.offsetTop;
+        var current = element.offsetParent;
+        while (current !== null) {
+          actualTop += (current.offsetTop + current.clientTop);
+          current = current.offsetParent;
+        }
+        //返回结果
+        return {
+          x: actualLeft,
+          y: actualTop
+        }
+      }
+
       var MutationObserver = window.MutationObserver || window.WebKitMutationObserver || window.MozMutationObserver;
       var targetNode = document.getElementById("FadeInDivFrame");; //需要监听的元素id
       //options：监听的属性
       var options = {
         attributes: true, //configure it to listen to attribute changes,
-        attributeFilter: ['style']
+        attributeFilter: ['style'],
+        /*         childList: true,
+                subtree: true */
       };
       //回调事件
       function callback(mutations) {
@@ -1011,12 +1036,25 @@ c-0.8047,2.0459-1.1533,3.7432-0.5103,6.5195s2.7056,4.5264,3.5181,6.2139s0.5-1.68
           if (mutation.type == "attributes") {
             console.log("attributes changed", mutation);
             var img = document.getElementById("img");
+            var zb = getElementPagePosition(img);
+            console.log(zb);
             var hiddenBtn = document.getElementById("HiddenDivFrame");
             var height = img.height;
-            console.log(height);
-            var top = height / 2;
-            console.log(top);
-            hiddenBtn.style.top = '-' + top + 'px';
+            var width = img.width;
+            var btnWidth = window.getComputedStyle(hiddenBtn).width;
+            var btnHeight = window.getComputedStyle(hiddenBtn).height;
+            // var btnTop = window.getComputedStyle(hiddenBtn).top;
+            // var btnLeft = window.getComputedStyle(hiddenBtn).left;
+            // console.log(height);
+            // console.log(width);
+            // console.log(btnTop);
+            // console.log(btnLeft);
+            // var top = Number(btnHeight.replace("px", "")) / 2;
+            // var left = width + (Number(btnWidth.replace("px", "")) / 2);
+            // console.log(top);
+            // console.log(left);
+            hiddenBtn.style.left = zb.x + width - (Number(btnWidth.replace("px", "")) / 2) + 'px';
+            hiddenBtn.style.top = zb.y  - (Number(btnHeight.replace("px", "")) / 2) + "px";
           }
         });
       }
