@@ -2,10 +2,10 @@ window.onload = function () {
   // 页面加载完后调用方法
   this.startmetor();
   setInterval(startmetor, 20000);
-  setTimeout(hidden,20000);
+  setTimeout(hidden, 20000);
 };
 
-function startmetor(){
+function startmetor() {
   const meteorNum = 24;
   let prefix = "comet"; // 前缀
   let separator = "-"; // 分割线
@@ -13,10 +13,10 @@ function startmetor(){
   let suffix = ""; // 后缀
   let suffixRanNum = null; // 用于调整后缀的随机号码
   let viewWidth = $(window).width(); // jquery获取视口宽高，不包括工具栏和滚动条
-  var ns = "http://www.w3.org/2000/svg"; 
-  console.info('viewWidth',viewWidth);
+  var ns = "http://www.w3.org/2000/svg";
+  console.info('viewWidth', viewWidth);
   let svg = document.getElementById("meteor");
-  svg.innerHTML="";
+  svg.innerHTML = "";
   let defs = document.createElementNS(ns, "defs");
   let radialGradient = document.createElementNS(ns, "radialGradient");
   radialGradient.setAttribute("id", "comet-gradient");
@@ -37,8 +37,8 @@ function startmetor(){
     suffixRanNum = generateRandomNum(suffixArr.length - 1);
     suffix = suffixArr[suffixRanNum];
     let className = "comet";
-    if(!isEmpty(suffix)){
-        className += " "+prefix+separator+suffix;
+    if (!isEmpty(suffix)) {
+      className += " " + prefix + separator + suffix;
     }
     let cx = generateRandomNum(viewWidth);
     let eclipse = document.createElementNS(ns, "ellipse");
@@ -53,7 +53,7 @@ function startmetor(){
 
     let g = document.createElementNS(ns, "g");
     let x = cx + 75;
-    g.setAttribute("transform","rotate(-45, "+x+" 1)");
+    g.setAttribute("transform", "rotate(-45, " + x + " 1)");
     g.appendChild(eclipse);
     svg.appendChild(g);
   }
@@ -67,21 +67,25 @@ function isEmpty(obj) {
   }
 }
 
-function hidden(){
+function hidden() {
   let hidden = document.getElementsByClassName("hiddenDiv");
   console.log(hidden.length);
-  for(let i=0; i < hidden.length; i++){
+  for (let i = 0; i < hidden.length; i++) {
     console.log(hidden[i]);
     hidden[i].style.display = "none";
   }
-  
+
   let block = document.getElementsByClassName("blockDiv");
   console.log(block.length);
-  for(let i=0; i < block.length; i++){
+  for (let i = 0; i < block.length; i++) {
     console.log(block[i]);
     block[i].style.display = "block";
   }
-  
+
+  // 使happybirthday出现时，先手动触发点击，产生动画效果
+  var happybirthday = document.getElementById("happybirthday");
+  fireClick(happybirthday);
+
 }
 
 function generateRandomNum(range) {
@@ -90,13 +94,27 @@ function generateRandomNum(range) {
 }
 
 
-function FadeInLinkClick() {          
+function FadeInLinkClick() {
   var frame = document.getElementById("FadeInDivFrame");
   frame.style.display = "flex";
   frame.className = "FadeInFrame fadein";
-} 
+}
 
-function CloseFrameClick() {          
-    var frame = document.getElementById("FadeInDivFrame");
-    frame.style.display = "none";
+function CloseFrameClick() {
+  var frame = document.getElementById("FadeInDivFrame");
+  frame.style.display = "none";
+  var happybirthday = document.getElementById("happybirthday");
+  fireClick(happybirthday);
+}
+
+function fireClick(node) {
+  if (document.createEvent) {
+    var evt = document.createEvent('MouseEvents');
+    evt.initEvent('click', true, false);
+    node.dispatchEvent(evt);
+  } else if (document.createEventObject) {
+    node.fireEvent('onclick');
+  } else if (typeof node.onclick == 'function') {
+    node.onclick();
+  }
 }
